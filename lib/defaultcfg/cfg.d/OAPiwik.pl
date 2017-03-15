@@ -33,7 +33,7 @@ require LWP::ConnCache;
 ################
 
 # Modify the following URL to the Piwik tracker location
-$c->{OAPiwik}->{tracker} = "http://jurica.irb.hr/oapiwik/";
+$c->{OAPiwik}->{tracker} = "https://analytics.openaire.eu/piwik.php";
 
 # Enter the OpenAIRE Piwik Site ID
 my $SITE_ID = '';
