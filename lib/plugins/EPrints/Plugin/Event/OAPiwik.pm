@@ -60,7 +60,7 @@ sub replay
 
 sub log
 {
-	my( $self, $access, $request_url, $SITE_ID ) = @_;
+	my( $self, $access, $request_url, $SITE_ID, $token ) = @_;
 
 	my $repo = $self->{session};
 	my $action_name = 'View';
@@ -95,7 +95,7 @@ sub log
 		rec => '1',
 		url => $request_url,
 		action_name => $action_name,
-		token_auth => '32846584f571be9b57488bf4088f30ea',
+		token_auth => $token,
 	);
 	
 	if( $access->is_set( "referring_entity_id" ) )

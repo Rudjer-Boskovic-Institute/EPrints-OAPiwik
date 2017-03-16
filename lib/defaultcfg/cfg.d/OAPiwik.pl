@@ -38,6 +38,9 @@ $c->{OAPiwik}->{tracker} = "https://analytics.openaire.eu/piwik.php";
 # Enter the OpenAIRE Piwik Site ID
 my $SITE_ID = '';
 
+# Enter the piwik tokeni_auth
+$token = '';
+
 ################
 # CONFIG END  #
 ##############
@@ -65,7 +68,7 @@ $c->add_dataset_trigger( 'access', EPrints::Const::EP_TRIGGER_CREATED, sub {
 
 	my $plugin = $repo->plugin( "Event::OAPiwik" );
 
-	my $r = $plugin->log( $access, $repo->current_url( host => 1 ), $SITE_ID );
+	my $r = $plugin->log( $access, $repo->current_url( host => 1 ), $SITE_ID, $token );
 
 	if( defined $r && !$r->is_success )
 	{
