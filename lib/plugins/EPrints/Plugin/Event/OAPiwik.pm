@@ -88,13 +88,14 @@ sub log
 	my %qf_params = (
 		###url_ver => "Z39.88-2004",
 		url_tim => $url_tim,
-		req_id => "urn:ip:".$access->value( "requester_id" ),
+		cip => $access->value( "requester_id" ),
 		ua => $access->value( "requester_user_agent" ),
 		'rft.artnum' => $artnum,
 		idsite => $SITE_ID,
 		rec => '1',
 		url => $request_url,
 		action_name => $action_name,
+		token_auth => '32846584f571be9b57488bf4088f30ea',
 	);
 	
 	if( $access->is_set( "referring_entity_id" ) )
