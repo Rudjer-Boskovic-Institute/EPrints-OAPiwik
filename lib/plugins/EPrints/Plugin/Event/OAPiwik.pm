@@ -84,18 +84,20 @@ sub log
 			_archive_id( $repo ),
 			$access->value( "referent_id" ),
 		);
-
+	my $cvar = '{"1":[{"oaipmhid":"'.$artnum.'"}]}'; 
+	
 	my %qf_params = (
 		###url_ver => "Z39.88-2004",
 		url_tim => $url_tim,
-		cip => $access->value( "requester_id" ),
+		#cip => $access->value( "requester_id" ),
 		ua => $access->value( "requester_user_agent" ),
 		'rft.artnum' => $artnum,
 		idsite => $SITE_ID,
 		rec => '1',
 		url => $request_url,
 		action_name => $action_name,
-		token_auth => $token,
+		#token_auth => $token,
+		_cvar => $cvar,
 	);
 	
 	if( $access->is_set( "referring_entity_id" ) )
