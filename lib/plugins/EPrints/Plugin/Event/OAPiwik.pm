@@ -85,7 +85,7 @@ sub log
 			$access->value( "referent_id" ),
 		);
 	my $cvar = '{"1":["oaipmhID","'.$artnum.'"]}'; 
-	my $title = $repo->dataset( "document" )->dataobj->get_value("title");
+	
 	my %qf_params = (
 		###url_ver => "Z39.88-2004",
 		url_tim => $url_tim,
@@ -95,8 +95,7 @@ sub log
 		idsite => $SITE_ID,
 		rec => '1',
 		url => $request_url,
-		#action_name => $action_name,
-		action_name => $title,
+		action_name => $action_name,
 		token_auth => $token,
 		cvar => $cvar,
 	);
