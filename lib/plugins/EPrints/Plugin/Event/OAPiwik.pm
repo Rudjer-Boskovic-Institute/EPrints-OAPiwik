@@ -85,7 +85,10 @@ sub log
 			$access->value( "referent_id" ),
 		);
 	my $cvar = '{"1":["oaipmhID","'.$artnum.'"]}'; 
-	my $title = $repo->dataset( "document" )->dataobj->get_value("title");
+	
+	my $eprint = $self->{processor}->{eprint};
+	my $title = $eprint->get_value("title");
+	
 	my %qf_params = (
 		###url_ver => "Z39.88-2004",
 		url_tim => $url_tim,
