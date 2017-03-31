@@ -86,6 +86,9 @@ sub log
 		);
 	my $cvar = '{"1":["oaipmhID","'.$artnum.'"]}'; 
 	
+	my $eprint = $self->{processor}->{eprint};
+	my $title = $eprint->get_value("title");
+	
 	my %qf_params = (
 		###url_ver => "Z39.88-2004",
 		url_tim => $url_tim,
@@ -95,7 +98,8 @@ sub log
 		idsite => $SITE_ID,
 		rec => '1',
 		url => $request_url,
-		action_name => $action_name,
+		#action_name => $action_name,
+		action_name => $title,
 		token_auth => $token,
 		cvar => $cvar,
 	);
