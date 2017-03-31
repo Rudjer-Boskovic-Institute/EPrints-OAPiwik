@@ -84,8 +84,8 @@ sub log
 			_archive_id( $repo ),
 			$access->value( "referent_id" ),
 		);
-	my $cvar = '{"1":["oaipmhid","'.$artnum.'"]}'; 
-	
+	my $cvar = '{"1":["oaipmhID","'.$artnum.'"]}'; 
+	my $title = $repo->dataset( "document" )->dataobj->get_value("title");
 	my %qf_params = (
 		###url_ver => "Z39.88-2004",
 		url_tim => $url_tim,
@@ -95,9 +95,10 @@ sub log
 		idsite => $SITE_ID,
 		rec => '1',
 		url => $request_url,
-		action_name => $action_name,
+		#action_name => $action_name,
+		action_name => $title,
 		token_auth => $token,
-		_cvar => $cvar,
+		cvar => $cvar,
 	);
 	
 	if( $access->is_set( "referring_entity_id" ) )
