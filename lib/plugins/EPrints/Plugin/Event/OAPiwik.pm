@@ -100,18 +100,7 @@ sub log
 	
 	if($action_name eq 'Download')
 	{
-		%qf_params = (
-			url_tim => $url_tim,
-			cip => $access->value( "requester_id" ),
-			ua => $access->value( "requester_user_agent" ),
-			idsite => $SITE_ID,
-			rec => '1',
-			url => $request_url,
-			action_name => $action_name,
-			download => $request_url
-			token_auth => $token,
-			cvar => $cvar,
-		);
+	   $qf_params{download} = $request_url;
 	}
 	
 	if( $access->is_set( "referring_entity_id" ) )
