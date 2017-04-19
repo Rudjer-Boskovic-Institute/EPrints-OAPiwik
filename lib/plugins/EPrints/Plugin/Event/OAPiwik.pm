@@ -96,7 +96,7 @@ sub log
 		rec => '1',
 		url => $request_url,
 		action_name => $action_name,
-		$rand => $piwik_rand,
+		rand => $piwik_rand,
 		token_auth => $token,
 		cvar => $cvar,
 	);
