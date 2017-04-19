@@ -84,6 +84,9 @@ sub log
 		);
 
 	my $cvar = '{"1":["oaipmhID","'.$oaipmh.'"]}';
+	
+	my $piwikrandrange = 10000;
+	my $piwik_rand = int(rand($piwikrandrange));
 
 	my %qf_params = (
 		url_tim => $url_tim,
@@ -93,6 +96,7 @@ sub log
 		rec => '1',
 		url => $request_url,
 		action_name => $action_name,
+		rand => $piwik_rand,
 		token_auth => $token,
 		cvar => $cvar,
 	);
