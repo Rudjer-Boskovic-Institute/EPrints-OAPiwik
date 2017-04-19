@@ -65,11 +65,9 @@ sub log
 	my $repo = $self->{session};
 	my $action_name = 'View';
 	if($access->value( "service_type_id" ) eq "?fulltext=yes")
-	{ 
-		$action_name = 'Download'; 
+	{
+		$action_name = 'Download';
 	}
-###	return if $access->value( "service_type_id" ) ne "?fulltext=yes";
-
 	my $doc = $repo->dataset( "document" )->dataobj( $access->value( "referent_docid" ) );
 
 	my $url = URI->new(
@@ -79,18 +77,18 @@ sub log
 	my $url_tim = $access->value( "datestamp" );
 	$url_tim =~ s/^(\S+) (\S+)$/$1T$2Z/;
 
-	my $artnum = EPrints::OpenArchives::to_oai_identifier(
+	my $oaipmh = EPrints::OpenArchives::to_oai_identifier(
 		###	EPrints::OpenArchives::archive_id( $repo ),
 			_archive_id( $repo ),
 			$access->value( "referent_id" ),
 		);
-	my $cvar = '{"1":["oaipmhID","'.$artnum.'"]}'; 
-	
+
+	my $cvar = '{"1":["oaipmhID","'.$oaipmh.'"]}';
+
 	my %qf_params = (
 		url_tim => $url_tim,
 		cip => $access->value( "requester_id" ),
 		ua => $access->value( "requester_user_agent" ),
-		#'rft.artnum' => $artnum,
 		idsite => $SITE_ID,
 		rec => '1',
 		url => $request_url,
@@ -98,17 +96,17 @@ sub log
 		token_auth => $token,
 		cvar => $cvar,
 	);
-	
+
 	if( $access->is_set( "referring_entity_id" ) )
 	{
 		$qf_params{urlref} = $access->value( "referring_entity_id" );
 	}
-	
+
 	if($action_name eq 'Download')
 	{
 	   $qf_params{download} = $request_url;
-	}	
-	
+	}
+
 	$url->query_form( %qf_params );
 
 	my $ua = $repo->config( "OAPiwik", "ua" );
