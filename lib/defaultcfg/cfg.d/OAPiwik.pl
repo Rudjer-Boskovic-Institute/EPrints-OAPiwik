@@ -14,11 +14,11 @@ See README
 
 =head2 Implementation
 
-This code will PING the configured tracker server whenever an item is viewed or full-text object is requested from EPrints.
+Record to the configured Piwik server whenever an item is viewed or full-text object is requested from EPrints.
 
 =head2 Changes
 
-0.99 Karlo Hrenovic <karlo.hrenovic@irb.hr>, Alen Vodopijevec <alen@irb.hr>
+v1.0 Dimitris Pierrakos dpierrakos@gmail.com, Karlo Hrenovic <karlo.hrenovic@irb.hr>, Alen Vodopijevec <alen@irb.hr> 
 
 Initial version
 - based on "PIRUS/IRUS-UK PUSH Implementation" <http://files.eprints.org/971/>
@@ -36,27 +36,23 @@ require LWP::ConnCache;
 $c->{OAPiwik}->{tracker} = "https://analytics.openaire.eu/piwik.php";
 
 # Enter the OpenAIRE Piwik Site ID
-my $SITE_ID = '';
+$c->{OAPiwik}->{siteID} = "1";
 
-# Enter the piwik tokeni_auth
-$token = '';
+# Enter the piwik token_auth
+$c->{OAPiwik}->{token_auth} = "32846584f571be9b57488bf4088f30ea";
+
+# Specify the number of bytes, 1,2 or 3, for IP Anonymization (empty for no IP Anonymization)
+$c->{OAPiwik}->{noOfBytes} = "";
+
+# Other Config Parameters
+$c->{OAPiwik}->{ua} = LWP::UserAgent->new(conn_cache => LWP::ConnCache->new,);
+
+$c->{plugins}->{"Event::OAPiwik"}->{params}->{disable} = 0;
+
 
 ################
 # CONFIG END  #
 ##############
-
-
-
-# you may want to revise the settings for the user agent e.g. increase or
-# decrease the network timeout
-$c->{OAPiwik}->{ua} = LWP::UserAgent->new(
-	from => $c->{adminemail},
-	agent => $c->{version},
-	timeout => 20,
-	conn_cache => LWP::ConnCache->new,
-);
-
-$c->{plugins}->{"Event::OAPiwik"}->{params}->{disable} = 0;
 
 ##############################################################################
 
@@ -68,19 +64,6 @@ $c->add_dataset_trigger( 'access', EPrints::Const::EP_TRIGGER_CREATED, sub {
 
 	my $plugin = $repo->plugin( "Event::OAPiwik" );
 
-	my $r = $plugin->log( $access, $repo->current_url( host => 1 ), $SITE_ID, $token );
-
-	if( defined $r && !$r->is_success )
-	{
-		my $event = $repo->dataset( "event_queue" )->dataobj_class->create_unique( $repo, {
-			eventqueueid => Digest::MD5::md5_hex( "Event::OAPiwik::replay" ),
-			pluginid => "Event::OAPiwik",
-			action => "replay",
-		});
-		if( defined $event )
-		{
-			$event->set_value( "params", [$access->id] );
-			$event->commit;
-		}
-	}
+	my $r = $plugin->log( $access, $repo->current_url( host => 1 ));
 });
+
