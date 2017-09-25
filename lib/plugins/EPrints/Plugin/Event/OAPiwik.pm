@@ -24,11 +24,12 @@ sub log
 {
 	my( $self, $access, $request_url, $token) = @_;
 
-	my $repo = $self->{session};
-	my $eprint=$repo->dataset( EPrints::DataObj::EPrint->get_dataset_id )->dataobj($access->value( "referent_id" ));
+	#my $repo = $self->{session};
+	#my $eprint=$repo->dataset( EPrints::DataObj::EPrint->get_dataset_id )->dataobj($access->value( "referent_id" ));
 
-	#Get Page title 
-	my $action_name=$eprint->get_value("title");
+	#Get Page title
+	#my $action_name=$eprint->get_value("title");
+	my $action_name= 'View';
 
 	if($access->value( "service_type_id" ) eq "?fulltext=yes")
 	{
@@ -45,9 +46,9 @@ sub log
 			_archive_id( $repo ),
 			$access->value( "referent_id" ),
 		);
-	
+
 	my $cvar = '{"1":["oaipmhID","'.$oaipmh.'"]}';
-	
+
 	my $piwikrandrange = 10000;
 	my $piwik_rand = int(rand($piwikrandrange));
 
@@ -58,14 +59,14 @@ sub log
 
 	my $noOfBytes=$repo->config( "OAPiwik", "noOfBytes" );
 	my $ipanonymized= $ip;
-	
+
 	if($noOfBytes and $noOfBytes==1){
 		$ipanonymized = (join '.', ( split('\.', $ip) )[0 .. 3-$noOfBytes]).".0" ;
 	}
 	elsif($noOfBytes and $noOfBytes==2){
 		$ipanonymized = (join '.', ( split('\.', $ip) )[0 .. 3-$noOfBytes]).".0.0" ;
 	}
-	
+
 	elsif($noOfBytes and $noOfBytes==3){
 		$ipanonymized = (join '.', ( split('\.', $ip) )[0 .. 3-$noOfBytes]).".0.0.0" ;
 	}
@@ -79,7 +80,7 @@ sub log
 		url => $request_url,
 		action_name => $action_name,
 		rand => $piwik_rand,
-		token_auth => $repo->config( "OAPiwik", "token_auth" ),	
+		token_auth => $repo->config( "OAPiwik", "token_auth" ),
 		cvar => $cvar,
 	);
 
