@@ -24,7 +24,7 @@ sub log
 {
 	my( $self, $access, $request_url, $token) = @_;
 
-	#my $repo = $self->{session};
+	my $repo = $self->{session};
 	#my $eprint=$repo->dataset( EPrints::DataObj::EPrint->get_dataset_id )->dataobj($access->value( "referent_id" ));
 
 	#Get Page title
